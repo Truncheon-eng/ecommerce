@@ -1,0 +1,5 @@
+app/__pycache__/*
+app/cart/__pycache__/*
+app/catalog/__pycache__/*
+app/orders/__pycache__/*
+instance/*

@@ -1,0 +1,26 @@
+{# Используется из catalog.html: {% from '_components/product_card.html' import product_card with context %} #}
+{% macro product_card(product) %}
+<article class="product-card">
+  <a class="product-card-media" href="{{ url_for('catalog.product_detail', id=product.id) }}" aria-label="Подробнее: {{ product.name }}">
+    <img src="{{ url_for('static', filename='images/' ~ (product.image_filename or 'placeholder.svg')) }}" alt="{{ product.name }}" loading="lazy">
+    {% if product.stock <= 0 %}<span class="media-pill">Нет в наличии</span>{% endif %}
+  </a>
+  <div class="product-card-body">
+    <div class="product-meta"><span>{{ product.category.name }}</span><span class="small-star" aria-hidden="true">✦</span></div>
+    <h3><a href="{{ url_for('catalog.product_detail', id=product.id) }}">{{ product.name }}</a></h3>
+    <p class="product-desc">{{ product.description|truncate(76, true) }}</p>
+    <div class="product-card-bottom">
+      <div class="price">{{ "%.2f"|format(product.price_cents / 100) }} <span>₽</span></div>
+      <form method="post" action="{{ url_for('cart.add_item') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="operation" value="add">
+        <button type="submit" class="add-icon-btn" aria-label="Добавить {{ product.name }} в корзину" title="Добавить в корзину" {% if product.stock <= 0 %}disabled{% endif %}>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</article>
+{% endmacro %}

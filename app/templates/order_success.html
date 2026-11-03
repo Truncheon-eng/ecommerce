@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Заказ принят — NOVA shop{% endblock %}
+{% block content %}
+<div class="container success-wrap">
+  <div class="success-icon" aria-hidden="true">✓</div>
+  <p class="eyebrow dark-eyebrow">СПАСИБО ЗА ЗАКАЗ</p>
+  <h1>Всё получилось<span class="heading-dot">.</span></h1>
+  <p class="success-lead">Твой заказ сохранён. Это демонстрационный магазин, поэтому автоматическая оплата и доставка пока не предусмотрены.</p>
+  <section class="success-receipt" aria-label="Детали заказа">
+    <div class="receipt-head"><span>Номер заказа</span><strong class="order-number">{{ order.public_id }}</strong></div>
+    <div class="receipt-body">
+      {% for item in order.items %}
+        <div class="receipt-line"><span>{{ item.product_name }} <small>× {{ item.quantity }}</small></span><strong>{{ "%.2f"|format(item.unit_price_cents * item.quantity / 100) }} ₽</strong></div>
+      {% endfor %}
+    </div>
+    <div class="receipt-total"><span>Сумма заказа</span><strong>{{ "%.2f"|format(order.total_cents / 100) }} ₽</strong></div>
+  </section>
+  <a class="btn btn-dark" href="{{ url_for('catalog.list_products') }}">Вернуться в каталог <span aria-hidden="true">↗</span></a>
+</div>
+{% endblock %}

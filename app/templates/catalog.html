@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% from '_components/product_card.html' import product_card with context %}
+{% block title %}Каталог — NOVA shop{% endblock %}
+{% block content %}
+<section class="hero"><div class="container hero-inner">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-line"></span> ТВОЯ ТЕХНИКА. ТВОЙ РИТМ.</p>
+    <h1>Хорошие вещи.<br><em>Каждый день.</em></h1>
+    <p class="hero-lead">Продуманная техника и аксессуары, которые приятно выбирать и ещё приятнее использовать.</p>
+    <a href="#products" class="btn btn-dark">Смотреть каталог <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="hero-sun"></div>
+    <div class="hero-slope hero-slope-back"></div><div class="hero-slope hero-slope-front"></div>
+    <div class="hero-badge"><span>NEW</span><strong>Objects<br>of desire</strong><small>EST. 2026</small></div>
+    <span class="hero-asterisk">✳</span>
+  </div>
+</div></section>
+
+<section class="catalog-section container" id="products">
+  <div class="section-top"><div><p class="eyebrow dark-eyebrow">НАША КОЛЛЕКЦИЯ</p><h2>Выбирай своё</h2></div><p class="section-summary">Ищешь что-то конкретное? Используй поиск и фильтры ниже.</p></div>
+  <form class="filters" method="get" action="{{ url_for('catalog.list_products') }}" role="search">
+    <label class="search-control">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
+      <span class="sr-only">Поиск по названию</span>
+      <input type="search" name="q" value="{{ search_query|default('') }}" placeholder="Поиск по товарам...">
+    </label>
+    <label class="filter-field"><span class="sr-only">Категория</span>
+      <select name="category"><option value="">Все категории</option>
+        {% for category in categories|default([]) %}<option value="{{ category.slug }}" {% if current_category|default('') == category.slug %}selected{% endif %}>{{ category.name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="filter-field"><span class="sr-only">Сортировка</span>
+      <select name="sort">
+        <option value="featured" {% if sort|default('featured') == 'featured' %}selected{% endif %}>По умолчанию</option>
+        <option value="price_asc" {% if sort|default('featured') == 'price_asc' %}selected{% endif %}>Сначала дешевле</option>
+        <option value="price_desc" {% if sort|default('featured') == 'price_desc' %}selected{% endif %}>Сначала дороже</option>
+        <option value="newest" {% if sort|default('featured') == 'newest' %}selected{% endif %}>Новинки</option>
+      </select>
+    </label>
+    <button class="btn btn-filter" type="submit">Применить</button>
+    <a class="filter-reset" href="{{ url_for('catalog.list_products') }}">Сбросить</a>
+  </form>
+  <div class="results-bar"><span>Найдено товаров: <strong>{{ products|length }}</strong></span><span>Особенные детали — в простых вещах ✳</span></div>
+  {% if products %}
+    <div class="product-grid">{% for product in products %}{{ product_card(product) }}{% endfor %}</div>
+  {% else %}
+    <div class="empty-state"><div class="empty-icon">⌕</div><h3>Ничего не нашли</h3><p>Попробуй изменить запрос или сбросить фильтры.</p><a class="btn btn-dark" href="{{ url_for('catalog.list_products') }}">Показать все товары</a></div>
+  {% endif %}
+</section>
+<section class="closing-banner"><div class="container closing-inner"><p>GOOD TECH. <span>GOOD DAYS.</span></p><span>Найди то, что подходит именно тебе ↗</span></div></section>
+{% endblock %}

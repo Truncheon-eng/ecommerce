@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Оформление заказа — NOVA shop{% endblock %}
+{% block content %}
+<div class="container page-shell">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="{{ url_for('catalog.list_products') }}">Каталог</a><span>/</span><a href="{{ url_for('cart.view_cart') }}">Корзина</a><span>/</span><span>Оформление</span></nav>
+  <div class="page-heading"><p class="eyebrow dark-eyebrow">ПОЧТИ ГОТОВО</p><h1>Оформление<span class="heading-dot">.</span></h1><p>Заполни контактные данные, чтобы мы могли связаться с тобой.</p></div>
+  <div class="checkout-layout">
+    <div class="checkout-panel"><div class="step-title"><span>01</span><div><h2>Контактные данные</h2><p>Поля со звёздочкой обязательны</p></div></div>
+      <form method="post" action="{{ url_for('orders.create_order') }}" id="checkout-form" class="checkout-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-field"><label for="customer_name">Имя и фамилия *</label><input id="customer_name" name="customer_name" type="text" autocomplete="name" maxlength="120" required placeholder="Александр Иванов" value="{{ form_data.get('customer_name', '') }}"></div>
+        <div class="form-two-col">
+          <div class="form-field"><label for="email">Email *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="example@mail.ru" value="{{ form_data.get('email', '') }}"></div>
+          <div class="form-field"><label for="phone">Телефон *</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32" required placeholder="+7 999 123-45-67" value="{{ form_data.get('phone', '') }}"></div>
+        </div>
+        <div class="form-field"><label for="comment">Комментарий <span>(необязательно)</span></label><textarea id="comment" name="comment" rows="4" maxlength="500" placeholder="Дополнительная информация к заказу">{{ form_data.get('comment', '') }}</textarea></div>
+        <div class="checkout-note"><span>✳</span><p>Это учебный магазин: оплату и доставку подключим на следующих этапах. На данный момент заказ просто сохраняется в базе данных.</p></div>
+        <button class="btn btn-dark btn-wide" type="submit">Подтвердить заказ <span aria-hidden="true">↗</span></button>
+        <a class="continue-link" href="{{ url_for('cart.view_cart') }}">← Вернуться к корзине</a>
+      </form>
+    </div>
+    <aside class="summary-card" aria-label="Состав заказа"><p class="mini-label">ПРОВЕРЬ ВЫБОР</p><h2>Твой заказ</h2>
+      <div class="checkout-products">{% for item in items %}<div class="checkout-mini-item"><span>{{ item.product.name }} <small>× {{ item.quantity }}</small></span><strong>{{ "%.2f"|format(item.subtotal_cents / 100) }} ₽</strong></div>{% endfor %}</div>
+      <div class="summary-total"><span>Итого*</span><strong>{{ "%.2f"|format(total_cents / 100) }} ₽</strong></div>
+      <p class="summary-caption">* Стоимость без доставки и без онлайн-оплаты.</p>
+    </aside>
+  </div>
+</div>
+{% endblock %}

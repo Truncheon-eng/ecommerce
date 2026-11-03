@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} — NOVA shop{% endblock %}
+{% block content %}
+<div class="container page-shell">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="{{ url_for('catalog.list_products') }}">Каталог</a><span>/</span><span>{{ product.name }}</span></nav>
+  <div class="detail-layout">
+    <div class="detail-art"><img src="{{ url_for('static', filename='images/' ~ (product.image_filename or 'placeholder.svg')) }}" alt="{{ product.name }}"></div>
+    <div class="detail-info"><p class="eyebrow dark-eyebrow">{{ product.category.name|upper }}</p><h1>{{ product.name }}</h1>
+      <p class="detail-description">{{ product.description }}</p>
+      <div class="detail-price">{{ "%.2f"|format(product.price_cents / 100) }} <span>₽</span></div>
+      <div class="stock-line"><span class="stock-dot {% if product.stock <= 0 %}stock-dot--off{% endif %}"></span>{% if product.stock > 0 %}В наличии: {{ product.stock }} шт.{% else %}Временно отсутствует{% endif %}</div>
+      <form class="detail-cart-form" method="post" action="{{ url_for('cart.add_item') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="hidden" name="operation" value="add">
+        <label class="quantity-label">Количество<input type="number" name="quantity" value="1" min="1" max="{{ product.stock if product.stock > 0 else 1 }}" {% if product.stock <= 0 %}disabled{% endif %}></label>
+        <button class="btn btn-dark detail-add" type="submit" {% if product.stock <= 0 %}disabled{% endif %}>Добавить в корзину <span aria-hidden="true">↗</span></button>
+      </form>
+      <div class="detail-note"><span>✳</span><p>Цена и доступность повторно проверяются сервером при оформлении заказа.</p></div>
+    </div>
+  </div>
+  <div class="back-row"><a href="{{ url_for('catalog.list_products') }}">← Вернуться к каталогу</a></div>
+</div>
+{% endblock %}

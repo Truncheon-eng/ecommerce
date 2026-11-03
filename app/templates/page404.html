@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Страница не найдена — NOVA shop{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/404.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="error-404-page" aria-labelledby="error-404-title">
+  <div class="container">
+    <nav class="breadcrumbs error-404-breadcrumbs" aria-label="Навигационная цепочка">
+      <a href="{{ url_for('catalog.list_products') }}">Главная</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Ошибка 404</span>
+    </nav>
+
+    <div class="error-404-layout">
+      <div class="error-404-copy">
+        <p class="eyebrow dark-eyebrow">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          НИЧЕГО НЕ НАЙДЕНО · 404
+        </p>
+        <h1 id="error-404-title">Упс! Кажется,<br>эта страница<br><em>потерялась.</em></h1>
+        <p class="error-404-description">
+          Такой страницы у нас нет. Возможно, ссылка устарела или в адресе опечатка.
+          Но интересные вещи никуда не делись — они ждут тебя в каталоге.
+        </p>
+        <div class="error-404-actions">
+          <a class="btn btn-dark" href="{{ url_for('catalog.list_products') }}">
+            Вернуться в каталог <span aria-hidden="true">↗</span>
+          </a>
+          <a class="error-404-secondary" href="{{ url_for('cart.view_cart') }}">
+            Посмотреть корзину <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="error-404-footnote">Подсказка: проверь адрес страницы или начни с каталога.</p>
+      </div>
+
+      <div class="error-404-art" aria-hidden="true">
+        <div class="error-404-sun"></div>
+        <div class="error-404-hill error-404-hill--back"></div>
+        <div class="error-404-hill error-404-hill--front"></div>
+        <div class="error-404-tile">
+          <span class="error-404-tile-top">✳&nbsp; NOVA SHOP</span>
+          <strong>404<span>.</span></strong>
+          <span class="error-404-tile-bottom">PAGE NOT FOUND</span>
+        </div>
+        <span class="error-404-spark">✳</span>
+        <span class="error-404-art-label">LOST IN THE NOVA UNIVERSE</span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

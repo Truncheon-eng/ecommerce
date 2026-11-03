@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Корзина — NOVA shop{% endblock %}
+{% block content %}
+<div class="container page-shell">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="{{ url_for('catalog.list_products') }}">Каталог</a><span>/</span><span>Корзина</span></nav>
+  <div class="page-heading"><p class="eyebrow dark-eyebrow">ВАШ ВЫБОР</p><h1>Корзина<span class="heading-dot">.</span></h1><p>Всё самое интересное — в одном месте.</p></div>
+  {% if items %}
+    <div class="checkout-layout">
+      <div class="cart-items">
+        {% for item in items %}
+          <article class="cart-item">
+            <a class="cart-item-img" href="{{ url_for('catalog.product_detail', id=item.product.id) }}"><img src="{{ url_for('static', filename='images/' ~ (item.product.image_filename or 'placeholder.svg')) }}" alt="{{ item.product.name }}"></a>
+            <div class="cart-item-main"><span class="mini-label">{{ item.product.category.name }}</span><h2><a href="{{ url_for('catalog.product_detail', id=item.product.id) }}">{{ item.product.name }}</a></h2><p>{{ "%.2f"|format(item.product.price_cents / 100) }} ₽ / шт.</p>
+              <form method="post" action="{{ url_for('cart.add_item') }}" class="quantity-update">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                <input type="hidden" name="operation" value="set">
+                <label>Кол-во <input type="number" name="quantity" min="1" max="99" value="{{ item.quantity }}" required></label>
+                <button type="submit" class="text-action">Обновить</button>
+              </form>
+            </div>
+            <div class="cart-item-right"><strong>{{ "%.2f"|format(item.subtotal_cents / 100) }} ₽</strong>
+              <form method="post" action="{{ url_for('cart.remove_item', id=item.product.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="remove-btn" aria-label="Убрать {{ item.product.name }} из корзины">Удалить ×</button>
+              </form>
+            </div>
+          </article>
+        {% endfor %}
+        <a class="continue-link" href="{{ url_for('catalog.list_products') }}">← Продолжить покупки</a>
+      </div>
+      <aside class="summary-card" aria-label="Итого по корзине"><p class="mini-label">ВАШ ЗАКАЗ</p><h2>Итого</h2>
+        <div class="summary-row"><span>Товаров, шт.</span><strong>{{ items|sum(attribute='quantity') }}</strong></div>
+        <div class="summary-row"><span>Стоимость товаров</span><strong>{{ "%.2f"|format(total_cents / 100) }} ₽</strong></div>
+        <div class="summary-total"><span>К оплате*</span><strong>{{ "%.2f"|format(total_cents / 100) }} ₽</strong></div>
+        <a href="{{ url_for('orders.checkout') }}" class="btn btn-dark btn-wide">Перейти к оформлению <span aria-hidden="true">↗</span></a>
+        <p class="summary-caption">* Без учёта доставки. Оплата на этом этапе не подключена.</p>
+      </aside>
+    </div>
+  {% else %}
+    <div class="empty-state empty-state--large"><div class="empty-icon">↗</div><h2>Здесь пока пусто</h2><p>Похоже, ты ещё ничего не выбрал. Загляни в каталог.</p><a class="btn btn-dark" href="{{ url_for('catalog.list_products') }}">Перейти к товарам</a></div>
+  {% endif %}
+</div>
+{% endblock %}

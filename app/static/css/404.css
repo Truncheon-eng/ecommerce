@@ -1,0 +1,28 @@
+/* Only the custom 404 page; the rest of NOVA's styling is in styles.css. */
+.error-404-page{padding:34px 0 92px}
+.error-404-breadcrumbs{margin-bottom:30px}
+.error-404-layout{display:grid;grid-template-columns:1fr 0.96fr;min-height:550px;border-radius:23px;overflow:hidden;background:#f0f0e9;border:1px solid #e5e8e0}
+.error-404-copy{padding:75px 48px 65px 58px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.error-404-copy .eyebrow{margin-bottom:24px}
+.error-404-copy h1{font-size:clamp(39px,4.25vw,62px);line-height:1.065;letter-spacing:-.068em;font-weight:850;margin:0 0 25px}
+.error-404-copy h1 em{font-style:normal;color:#77885a}
+.error-404-description{max-width:415px;margin:0 0 32px;font-size:14px;line-height:1.85;color:#68736e}
+.error-404-actions{display:flex;align-items:center;gap:21px;flex-wrap:wrap}
+.error-404-secondary{font-size:13px;font-weight:780;display:inline-flex;align-items:center;gap:8px;border-bottom:1px solid currentColor;padding:9px 0}
+.error-404-secondary:hover{color:#526a36}
+.error-404-footnote{font-size:11px;line-height:1.6;color:#9aa29c;margin:30px 0 0}
+.error-404-art{background:#d7dfb9;position:relative;overflow:hidden;min-height:510px;isolation:isolate}
+.error-404-sun{position:absolute;right:10%;top:11%;height:290px;width:290px;border-radius:50%;background:#ffe0aa;z-index:-1}
+.error-404-hill{position:absolute;width:135%;height:46%;left:-16%;border-radius:50%;transform:rotate(-25deg)}
+.error-404-hill--back{background:#a3b38b;bottom:-21%}
+.error-404-hill--front{background:#748968;bottom:-35%;left:-7%}
+.error-404-tile{position:absolute;top:17%;left:22%;width:240px;height:320px;transform:rotate(-11deg);background:#202a2a;border:7px solid #f4f2e9;border-radius:18px;box-shadow:22px 26px 0 rgba(33,55,40,.12);color:#f9faf5;display:flex;flex-direction:column;justify-content:space-between;padding:24px 22px}
+.error-404-tile-top{font-size:12px;font-weight:800;letter-spacing:.25em;color:#c7e866}
+.error-404-tile strong{font-size:98px;font-weight:850;letter-spacing:-.12em;line-height:1.0}
+.error-404-tile strong span{color:#f4a35c}
+.error-404-tile-bottom{font-size:10px;letter-spacing:.22em;font-weight:800;color:#cbd3c2}
+.error-404-spark{position:absolute;font-size:104px;line-height:1;bottom:18%;right:5%;transform:rotate(12deg);color:#22382b}
+.error-404-art-label{position:absolute;bottom:25px;right:25px;letter-spacing:.18em;font-size:9px;color:#e7f0d7;font-weight:800}
+@media(max-width:950px){.error-404-copy{padding:46px 35px}.error-404-tile{left:14%;width:215px;height:290px}.error-404-tile strong{font-size:86px}}
+@media(max-width:720px){.error-404-page{padding:20px 0 65px}.error-404-layout{grid-template-columns:1fr}.error-404-copy{padding:48px 28px 45px}.error-404-copy h1{font-size:clamp(37px,9vw,54px)}.error-404-art{min-height:320px}.error-404-tile{top:10%;left:25%;width:175px;height:245px;padding:18px 15px;border-width:5px}.error-404-tile strong{font-size:70px}.error-404-tile-top{font-size:10px}.error-404-tile-bottom{font-size:8px}.error-404-sun{top:5%;width:220px;height:220px}.error-404-spark{font-size:78px;bottom:15%;right:12%}.error-404-breadcrumbs{margin-bottom:22px}}
+@media(max-width:430px){.error-404-copy{padding:35px 22px 37px}.error-404-actions{align-items:flex-start;gap:13px;flex-direction:column}.error-404-art{min-height:275px}.error-404-tile{left:20%;width:157px;height:218px}.error-404-tile strong{font-size:59px}.error-404-art-label{right:12px;bottom:13px;font-size:7px}}
