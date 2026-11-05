@@ -4,7 +4,7 @@ from . import bp
 from app.extensions import db
 from app.models import Product, Category
 
-from app.auxiliary import get_cart_count
+from app.cart.service import get_cart_count
 
 @bp.get("/products")
 def list_products():

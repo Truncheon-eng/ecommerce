@@ -20,7 +20,7 @@
               </form>
             </div>
             <div class="cart-item-right"><strong>{{ "%.2f"|format(item.subtotal_cents / 100) }} ₽</strong>
-              <form method="post" action="{{ url_for('cart.remove_item', id=item.product.id) }}">
+              <form method="post" action="{{ url_for('cart.remove_item', product_id=item.product.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="remove-btn" aria-label="Убрать {{ item.product.name }} из корзины">Удалить ×</button>
               </form>

@@ -6,7 +6,6 @@ from flask import (
     render_template,
     url_for,
     request,
-    session,
     abort
 )
 
@@ -14,7 +13,7 @@ from . import bp
 
 from app.models import OrderItem, Order
 from app.extensions import db
-from app.auxiliary import build_cart, get_cart_count
+from app.cart.service import build_cart, get_cart_count, get_cart_id, remove_cart
 
 
 @bp.get("/orders/new")
@@ -52,6 +51,7 @@ def create_order():
 
     order_items = [
         OrderItem(
+            product_name=item.product.name,
             unit_price_cents=item.product.price_cents,
             quantity=item.quantity,
         ) for item in items
@@ -67,13 +67,14 @@ def create_order():
         print("Error when created \"order\"")
         raise
 
-    session.pop("cart")
-    
+    cart_id = get_cart_id()
+    remove_cart(cart_id) 
+
     return redirect(url_for("orders.order_success", order_id=public_id))
 
 
 @bp.get("/orders/<string:order_id>")
-def order_success(order_id):
+def order_success(order_id: str):
     order = db.session.execute(
         db.select(Order).where(Order.public_id == order_id)
     ).scalar_one_or_none()

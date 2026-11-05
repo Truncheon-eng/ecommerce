@@ -1,10 +1,11 @@
+import atexit
 from app.config import Config
 from app.extensions import db
 from flask import Flask
 
 from flask import Flask, render_template
 
-from .extensions import db, csrf
+from .extensions import db, csrf, init_redis
 from .config import Config
 from .models import Product, Category 
 
@@ -79,6 +80,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     csrf.init_app(app)
+    init_redis(app)
     # TODO: добавить инициализацию login_manager-а
 
     from .catalog import bp as catalog_bp
@@ -96,7 +98,9 @@ def create_app(config_class=Config):
         with app.app_context():
             db.create_all()
 
-            has_product = db.session.execute(db.select(Product).limit(1)).first()
+            has_product = db.session.execute(
+                    db.select(Product).limit(1)
+            ).first()
 
             if not has_product:
                 try:

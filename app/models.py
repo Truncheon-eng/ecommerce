@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from dataclasses import dataclass
 
+@dataclass
 class Category(db.Model):
     __tablename__ = "categories"
 
@@ -16,6 +17,7 @@ class Category(db.Model):
         back_populates="category"
     )
 
+@dataclass
 class Product(db.Model):
     __tablename__ = "products"
 
@@ -24,7 +26,7 @@ class Product(db.Model):
     description: Mapped[str] = mapped_column(Text)
     price_cents: Mapped[int] = mapped_column(nullable=False)
 
-    image_filename: Mapped[str] # TODO: при добавленнии возможности загрузки задуматься об ограничении данного поля
+    image_filename: Mapped[str] = mapped_column(String) # TODO: при добавленнии возможности загрузки задуматься об ограничении данного поля
     stock: Mapped[int] = mapped_column(nullable=False)
 
     category_id: Mapped[int] = mapped_column(
@@ -35,10 +37,12 @@ class Product(db.Model):
         back_populates="products"
     )
 
+@dataclass
 class OrderItem(db.Model):
     __tablename__ = "order_items"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    product_name: Mapped[str] = mapped_column(unique=True)
     unit_price_cents: Mapped[int] = mapped_column(nullable=False)
     quantity: Mapped[int] = mapped_column(nullable=False)
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"))
@@ -48,6 +52,7 @@ class OrderItem(db.Model):
         back_populates="items"
     )
 
+@dataclass
 class Order(db.Model):
     __tablename__ = "orders"
 
